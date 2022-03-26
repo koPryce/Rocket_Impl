@@ -6,9 +6,13 @@ from tkinter import messagebox
 def parseString():
     string = stringBox.get()
     if not string.isalpha():
-        messagebox.showerror("Alphabet Error", "The string entered contains characters that are not a part of the alphabet.", parent=main_frame)
+        messagebox.showerror("Alphabet Error",
+                             "The string entered contains characters that are not a part of the alphabet.",
+                             parent=main_frame)
     elif not string.islower():
-        messagebox.showerror("Case Error", "The string entered contains uppercase characters that are not a part of the alphabet.", parent=main_frame)
+        messagebox.showerror("Case Error",
+                             "The string entered contains uppercase characters that are not a part of the alphabet.",
+                             parent=main_frame)
     else:
         success_window = Toplevel()
         success_window.title("Simulation Starting...")
@@ -21,16 +25,66 @@ def parseString():
         main_window.wm_state('iconic')
         listString = []
         listString[:0] = string
-        simulation('Launch Pad', listString)
+        main_window.after(5500, lambda: simulation('Launch Pad', listString))
+
 
 def simulation(state, string):
+    val = string.pop(0)
+    if state.title() == "Launch Pad":
+        if val == 'a':
+            print("At the", state,
+                  "the rocket received the Launch Signal at T minus 0 and proceeded to the Lift Off Condition.")
+            simulation('Lift Off', string)
+        elif val == 'b':
+            print("At the", state,
+                  "the rocket received the lightening observed with 10 nautical miles signal and proceeded to the Delay Launch Condition.")
+            simulation('Delay Launch', string)
+        elif val == 'd':
+            print("At the", state,
+                  "the rocket received the field mill instrument readings within 5 nautical miles exceed ±1,500 volts signal and proceeded to the Delay Launch Condition.")
+            simulation('Delay Launch', string)
+        elif val == 'f':
+            simulation('Abort', string)
+        elif val == 'g':
+            simulation('Abort', string)
+        elif val == 'h':
+            simulation('Abort', string)
+        elif val == 'i':
+            simulation('Abort', string)
+        elif val == 'j':
+            simulation('Abort', string)
+        elif val == 'k':
+            simulation('Abort', string)
+        elif val == 'l':
+            simulation('Abort', string)
+        elif val == 'm':
+            simulation('Abort', string)
+        elif val == 'n':
+            simulation('Abort', string)
+        else:
+            simulation('Dead', string)
 
-    if state == "Launch Pad":
+    elif state.title() == "Delay Launch":
         pass
-    elif state ==
+    elif state.title() == "Lift Off":
+        pass
+    elif state.title() == "Powered Ascent":
+        pass
+    elif state.title() == "Ignition":
+        pass
+    elif state.title() == "Stage Separation":
+        pass
+    elif state.title() == "On Orbit Operations":
+        pass
+    elif state.title() == "Entry Burn":
+        pass
+    elif state.title() == "Splashdown":
+        pass
+    elif state.title() == "Abort":  # IF IT GOES TO THE ABORT STATE, TELL IT THAT IT STAYS THERE
+        pass
+    elif state.title() == "Dead":  # IF IT GOES TO THE DEAD STATE, END THE PROGRAM
+        pass
 
-# IF IT GOES TO THE DEAD STATE, END THE PROGRAM
-# IF IT GOES TO THE ABORT STATE, TELL IT THAT IT STAYS THERE
 
 # Main Window
 main_window = Tk()

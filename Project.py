@@ -25,6 +25,7 @@ def parseString():
         main_window.wm_state('iconic')
         listString = []
         listString[:0] = string
+        listString.append('EOS')
         main_window.after(5500, lambda: simulation('Launch Pad', listString))
 
 
@@ -44,46 +45,149 @@ def simulation(state, string):
                   "the rocket received the field mill instrument readings within 5 nautical miles exceed ±1,500 volts signal and proceeded to the Delay Launch Condition.")
             simulation('Delay Launch', string)
         elif val == 'f':
+            print("At the", state,
+                  "the rocket received the 162-foot level exceeds 30 mph signal and proceeded to the Abort Condition.")
             simulation('Abort', string)
         elif val == 'g':
+            print("At the", state,
+                  "the rocket received the upper-level conditions are detected containing wind sheer signal and proceeded to the Abort Condition.")
             simulation('Abort', string)
         elif val == 'h':
+            print("At the", state,
+                  "the rocket received the attached thunderstorm anvil cloud is detected within 10 nautical miles signal and proceeded to the Abort Condition.")
             simulation('Abort', string)
         elif val == 'i':
+            print("At the", state,
+                  "the rocket received the detached thunderstorm anvil cloud is detected within 10 nautical miles signal and proceeded to the Abort Condition.")
             simulation('Abort', string)
         elif val == 'j':
+            print("At the", state,
+                  "the rocket received the thunderstorm debris cloud is detected within 3 nautical miles signal and proceeded to the Abort Condition.")
             simulation('Abort', string)
         elif val == 'k':
+            print("At the", state,
+                  "the rocket received the disturbed cloud extending into freezing temperatures is detected within 5 nautical miles signal and proceeded to the Abort Condition.")
             simulation('Abort', string)
         elif val == 'l':
+            print("At the", state,
+                  "the rocket received the cloud layer greater than 4,500 feet thick extending into freezing temperatures is detected signal and proceeded to the Abort Condition.")
             simulation('Abort', string)
         elif val == 'm':
+            print("At the", state,
+                  "the rocket received the cumulus clouds extending into freezing temperatures are detected within 10 nautical miles signal and proceeded to the Abort Condition.")
             simulation('Abort', string)
         elif val == 'n':
+            print("At the", state,
+                  "the rocket received the cumulus cloud is detected which formed because of or is directly attached to smoke plume signal and proceeded to the Abort Condition.")
             simulation('Abort', string)
         else:
-            simulation('Dead', string)
-
+            print("At the", state,
+                  "the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.")
+            simulation('Stall', string)
     elif state.title() == "Delay Launch":
-        pass
+        if val == 'c':
+            print("At the", state,
+                  "the rocket received the 30 minutes has passed signal and proceeded to the Launch Pad Condition.")
+            simulation('Launch Pad', string)
+        elif val == 'e':
+            print("At the", state,
+                  "the rocket received the thunderstorm producing lightening is detected within 10 nautical miles signal and proceeded to the Abort Condition.")
+            simulation('Abort', string)
+        else:
+            print("At the", state,
+                  "the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.")
+            simulation('Stall', string)
     elif state.title() == "Lift Off":
-        pass
+        if val == 'o':
+            print("At the", state,
+                  "the rocket received the SRB Separation signal and proceeded to the Powered Ascent Condition.")
+            simulation('Powered Ascent', string)
+        else:
+            print("At the", state,
+                  "the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.")
+            simulation('Stall', string)
     elif state.title() == "Powered Ascent":
-        pass
+        if val == 'p':
+            print("At the", state,
+                  "the rocket received the Main Engine Cut Off (MECO) signal and proceeded to the Ignition Condition.")
+            simulation('Ignition', string)
+        elif val == 'q':
+            print("At the", state,
+                  "the rocket received the Return to Launch Site (RTLS) signal and proceeded to the Abort Condition.")
+            simulation('Abort', string)
+        else:
+            print("At the", state,
+                  "the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.")
+            simulation('Stall', string)
     elif state.title() == "Ignition":
-        pass
+        if val == 'r':
+            print("At the", state,
+                  "the rocket received the ET Separation signal and proceeded to the Stage Separation Condition.")
+            simulation('Stage Separation', string)
+        elif val == 's':
+            print("At the", state,
+                  "the rocket received the Transoceanic Abort Landing (TAL) signal and proceeded to the Abort Condition.")
+            simulation('Abort', string)
+        else:
+            print("At the", state,
+                  "the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.")
+            simulation('Stall', string)
     elif state.title() == "Stage Separation":
-        pass
+        if val == 't':
+            print("At the", state,
+                  "the rocket received the Orbit Insertion signal and proceeded to the On Orbit Operations Condition.")
+            simulation('On Orbit Operations', string)
+        elif val == 'u':
+            print("At the", state,
+                  "the rocket received the Abort Once Around (AOA) signal and proceeded to the Abort Condition.")
+            simulation('Abort', string)
+        else:
+            print("At the", state,
+                  "the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.")
+            simulation('Stall', string)
     elif state.title() == "On Orbit Operations":
-        pass
+        if val == 'v':
+            print("At the", state,
+                  "the rocket received the Deorbit signal and proceeded to the Boostback Burn Condition.")
+            simulation('Boostback Burn', string)
+        elif val == 'w':
+            print("At the", state,
+                  "the rocket received the Abort to Orbit (ATO) signal and proceeded to the Abort Condition.")
+            simulation('Abort', string)
+        else:
+            print("At the", state,
+                  "the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.")
+            simulation('Stall', string)
+    elif state.title() == 'Boostback Burn':
+        if val == 'x':
+            print("At the", state,
+                  "the rocket received the Reentry signal and proceeded to the Entry Burn Condition.")
+            simulation('Entry Burn', string)
+        elif val == 'y':
+            print("At the", state,
+                  "the rocket received the Contingency Abort signal and proceeded to the Abort Condition.")
+            simulation('Abort', string)
+        else:
+            print("At the", state,
+                  "the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.")
+            simulation('Stall', string)
     elif state.title() == "Entry Burn":
-        pass
+        if val == 'z':
+            print("At the", state,
+                  "the rocket received the Landing signal and proceeded to the Splashdown Condition.")
+            simulation('Splashdown', string)
+        else:
+            print("At the", state,
+                  "the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.")
+            simulation('Stall', string)
     elif state.title() == "Splashdown":
-        pass
-    elif state.title() == "Abort":  # IF IT GOES TO THE ABORT STATE, TELL IT THAT IT STAYS THERE
-        pass
-    elif state.title() == "Dead":  # IF IT GOES TO THE DEAD STATE, END THE PROGRAM
-        pass
+        print("At the", state, "the rocket has safety landed.")
+    elif state.title() == "Abort":
+        print("Welcome to the Abort Condition, where no matter the input, you're stuck here.")
+        # simulation('Abort', string)
+    elif state.title() == "Stall":
+        print("Welcome to the Stall Condition, rocket won't move.")
+        # main_window.destroy()
 
 
 # Main Window

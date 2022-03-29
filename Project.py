@@ -1,8 +1,10 @@
 from tkinter import *
 from tkinter import messagebox
+import cv2
+from ffpyplayer.player import MediaPlayer
 
 
-# Function
+# Functions
 def parseString():
     string = stringBox.get()
     if not string.isalpha():
@@ -29,14 +31,34 @@ def parseString():
         main_window.after(5500, lambda: simulation('Launch Pad', listString))
 
 
+def playVideo(video_path):
+    video = cv2.VideoCapture(video_path)
+    player = MediaPlayer(video_path)
+    while True:
+        grabbed, frame = video.read()
+        audio_frame, val = player.get_frame()
+        if not grabbed:
+            break
+        if cv2.waitKey(28) & 0xFF == ord("q"):
+            break
+        cv2.imshow("Video", frame)
+        if val != 'eof' and audio_frame is not None:
+            # audio
+            img, t = audio_frame
+    video.release()
+    cv2.destroyAllWindows()
+
+
 def simulation(state, string):
     val = string.pop(0)
     if state.title() == "Launch Pad":
         if val == 'a':
+            playVideo('Videos/Rocket Liftoff.mp4')
             print("At the", state,
                   "the rocket received the Launch Signal at T minus 0 and proceeded to the Lift Off Condition.")
             simulation('Lift Off', string)
         elif val == 'b':
+            playVideo('Videos/Rocket and Lightning.mp4')
             print("At the", state,
                   "the rocket received the lightening observed with 10 nautical miles signal and proceeded to the Delay Launch Condition.")
             simulation('Delay Launch', string)
@@ -99,6 +121,7 @@ def simulation(state, string):
             simulation('Stall', string)
     elif state.title() == "Lift Off":
         if val == 'o':
+            playVideo('Videos/SRB Separation.mp4')
             print("At the", state,
                   "the rocket received the SRB Separation signal and proceeded to the Powered Ascent Condition.")
             simulation('Powered Ascent', string)
@@ -108,6 +131,7 @@ def simulation(state, string):
             simulation('Stall', string)
     elif state.title() == "Powered Ascent":
         if val == 'p':
+            playVideo('Videos/MECO.mp4')
             print("At the", state,
                   "the rocket received the Main Engine Cut Off (MECO) signal and proceeded to the Ignition Condition.")
             simulation('Ignition', string)
@@ -121,6 +145,7 @@ def simulation(state, string):
             simulation('Stall', string)
     elif state.title() == "Ignition":
         if val == 'r':
+            playVideo('Videos/ET Separation.mp4')
             print("At the", state,
                   "the rocket received the ET Separation signal and proceeded to the Stage Separation Condition.")
             simulation('Stage Separation', string)
@@ -151,6 +176,7 @@ def simulation(state, string):
                   "the rocket received the Deorbit signal and proceeded to the Boostback Burn Condition.")
             simulation('Boostback Burn', string)
         elif val == 'w':
+            playVideo('Videos/Abort to Orbit.mp4')
             print("At the", state,
                   "the rocket received the Abort to Orbit (ATO) signal and proceeded to the Abort Condition.")
             simulation('Abort', string)
@@ -160,6 +186,7 @@ def simulation(state, string):
             simulation('Stall', string)
     elif state.title() == 'Boostback Burn':
         if val == 'x':
+            playVideo('Videos/Reentry to Earth.mp4')
             print("At the", state,
                   "the rocket received the Reentry signal and proceeded to the Entry Burn Condition.")
             simulation('Entry Burn', string)
@@ -173,6 +200,7 @@ def simulation(state, string):
             simulation('Stall', string)
     elif state.title() == "Entry Burn":
         if val == 'z':
+            playVideo('Videos/Landing.mp4')
             print("At the", state,
                   "the rocket received the Landing signal and proceeded to the Splashdown Condition.")
             simulation('Splashdown', string)

@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 import cv2
+from ffpyplayer import writer
 from ffpyplayer.player import MediaPlayer
 
 
@@ -31,6 +32,10 @@ def parseString():
         main_window.after(5500, lambda: simulation('Launch Pad', listString))
 
 
+def rescaleframe(name):
+    return cv2.resize(name, (500, 400), interpolation=cv2.INTER_AREA)
+
+
 def playVideo(video_path):
     video = cv2.VideoCapture(video_path)
     player = MediaPlayer(video_path)
@@ -41,7 +46,11 @@ def playVideo(video_path):
             break
         if cv2.waitKey(28) & 0xFF == ord("q"):
             break
-        cv2.imshow("Video", frame)
+        rescaledframe = rescaleframe(frame)
+
+        cv2.imshow("Video", rescaledframe)
+        #cv2.resize(frame, (500, 400), interpolation=cv2.INTER_AREA)
+
         if val != 'eof' and audio_frame is not None:
             # audio
             img, t = audio_frame

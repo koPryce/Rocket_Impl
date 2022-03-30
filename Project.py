@@ -92,6 +92,7 @@ def simulation(state, string):
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the Launch Signal at T minus 0 and proceeded to the Lift Off Condition.").pack()
+            playAudio("Audios/Right_Path.wav")
             main_window.after(3000, lambda: playAudio("Audios/Launch_Pad.wav"))
             state_window.after(8000, lambda: state_window.destroy())
             main_window.after(9000, lambda: playVideo('Videos/Rocket Liftoff.mp4', 'Lift Off', 21))
@@ -104,6 +105,7 @@ def simulation(state, string):
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the lightning observed with 10 nautical miles signal and proceeded to the Delay Launch Condition.").pack()
+            playAudio("Audios/Right_Path.wav")
             state_window.after(3000, lambda: state_window.destroy())
             main_window.after(4000, lambda: playVideo('Videos/Rocket and Lightning.mp4', 'Lightning', 9))
             main_window.after(34500, lambda: simulation('Delay Launch', string))
@@ -115,6 +117,7 @@ def simulation(state, string):
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the field mill instrument readings within 5 nautical miles exceed ±1,500 volts signal and proceeded to the Delay Launch Condition.").pack()
+            playAudio("Audios/Right_Path.wav")
             state_window.after(3000, lambda: state_window.destroy())
             main_window.after(4000, lambda: simulation('Delay Launch', string))
         elif val == 'f':
@@ -237,6 +240,7 @@ def simulation(state, string):
             Label(state_window,
                   text="At the " + state +
                   " the rocket received the 30 minutes has passed signal and proceeded to the Launch Pad Condition.").pack()
+            playAudio("Audios/Right_Path.wav")
             state_window.after(3000, lambda: state_window.destroy())
             main_window.after(4000, lambda: simulation('Launch Pad', string))
         elif val == 'e':
@@ -279,6 +283,7 @@ def simulation(state, string):
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the SRB Separation signal and proceeded to the Powered Ascent Condition.").pack()
+            playAudio("Audios/Right_Path.wav")
             state_window.after(3000, lambda: state_window.destroy())
             main_window.after(4000, lambda: playVideo('Videos/SRB Separation.mp4', 'SRB Separation', 9))
             main_window.after(28500, lambda: simulation('Powered Ascent', string))
@@ -312,6 +317,7 @@ def simulation(state, string):
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the Main Engine Cut Off (MECO) signal and proceeded to the Ignition Condition.").pack()
+            playAudio("Audios/Right_Path.wav")
             state_window.after(3000, lambda: state_window.destroy())
             main_window.after(4000, lambda: playVideo('Videos/MECO.mp4', 'MECO', 20))
             main_window.after(36500, lambda: simulation('Ignition', string))
@@ -355,6 +361,7 @@ def simulation(state, string):
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the ET Separation signal and proceeded to the Stage Separation Condition.").pack()
+            playAudio("Audios/Right_Path.wav")
             state_window.after(3000, lambda: state_window.destroy())
             main_window.after(4000, lambda: playVideo('Videos/ET Separation.mp4', 'ET Separation', 9))
             main_window.after(19500, lambda: simulation('Stage Separation', string))
@@ -399,6 +406,7 @@ def simulation(state, string):
             Label(state_window,
                   text="At the " + state +
                   " the rocket received the Orbit Insertion signal and proceeded to the On Orbit Operations Condition.").pack()
+            playAudio("Audios/Right_Path.wav")
             state_window.after(3000, lambda: state_window.destroy())
             main_window.after(4000, lambda: simulation('On Orbit Operations', string))
         elif val == 'u':
@@ -442,6 +450,7 @@ def simulation(state, string):
             Label(state_window,
                   text="At the " + state +
                        " the rocket received the Deorbit signal and proceeded to the Boostback Burn Condition..").pack()
+            playAudio("Audios/Right_Path.wav")
             state_window.after(3000, lambda: state_window.destroy())
             main_window.after(4000, lambda: simulation('Boostback Burn', string))
         elif val == 'w':
@@ -485,6 +494,7 @@ def simulation(state, string):
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the Reentry signal and proceeded to the Entry Burn Condition.").pack()
+            playAudio("Audios/Right_Path.wav")
             state_window.after(3000, lambda: state_window.destroy())
             main_window.after(4000, lambda: playVideo('Videos/Reentry to Earth.mp4', 'Reentry to Earth', 16))
             main_window.after(19500, lambda: simulation('Entry Burn', string))
@@ -528,6 +538,7 @@ def simulation(state, string):
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the Landing signal and proceeded to the Splashdown Condition.").pack()
+            playAudio("Audios/Right_Path.wav")
             state_window.after(3000, lambda: state_window.destroy())
             main_window.after(4000, lambda: playVideo('Videos/Landing.mp4', 'Landing', 9))
             main_window.after(19500, lambda: simulation('Splashdown', string))

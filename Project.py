@@ -1,7 +1,9 @@
+import time
 from tkinter import *
 from tkinter import messagebox
 import cv2
 from ffpyplayer.player import MediaPlayer
+import pygame
 
 
 # Functions
@@ -15,6 +17,10 @@ def parseString():
         messagebox.showerror("Case Error",
                              "The string entered contains uppercase characters that are not a part of the alphabet.",
                              parent=main_frame)
+    elif len(string) == 0:
+        messagebox.showerror("No String",
+                             "The string entered is empty.",
+                             parent=main_frame)
     else:
         success_window = Toplevel()
         success_window.title("Simulation Starting...")
@@ -23,199 +29,556 @@ def parseString():
         success_window.attributes('-toolwindow', True)
 
         Label(success_window, text="Simulation is about to begin!").pack()
-        success_window.after(5000, lambda: success_window.destroy())
+        success_window.after(3000, lambda: success_window.destroy())
         main_window.wm_state('iconic')
         listString = []
         listString[:0] = string
         listString.append('EOS')
-        main_window.after(5500, lambda: simulation('Launch Pad', listString))
+        main_window.after(3500, lambda: simulation('Launch Pad', listString))
 
 
-def playVideo(video_path):
+def rescaleFrame(name):
+    return cv2.resize(name, (500, 400), interpolation=cv2.INTER_AREA)
+
+
+def playVideo(video_path, frame_name, wait_key):
     video = cv2.VideoCapture(video_path)
-    player = MediaPlayer(video_path)
+    audio = MediaPlayer(video_path)
+
     while True:
         grabbed, frame = video.read()
-        audio_frame, val = player.get_frame()
+        audio_frame, val = audio.get_frame()
+
         if not grabbed:
             break
-        if cv2.waitKey(28) & 0xFF == ord("q"):
+
+        rescaled_frame = rescaleFrame(frame)
+        cv2.imshow(frame_name, rescaled_frame)
+
+        if cv2.waitKey(wait_key) & 0xFF == ord("q"):
             break
-        cv2.imshow("Video", frame)
+
         if val != 'eof' and audio_frame is not None:
-            # audio
             img, t = audio_frame
+
     video.release()
     cv2.destroyAllWindows()
+
+
+def playAudio(audio_path):
+    pygame.mixer.init()
+    pygame.mixer.music.load(open(audio_path, "rb"))
+    pygame.mixer.music.play()
+    while pygame.mixer.music.get_busy():
+        time.sleep(1)
 
 
 def simulation(state, string):
     val = string.pop(0)
     if state.title() == "Launch Pad":
+        # state_window = Toplevel()
+        # state_window.title("Launch Pad")
+        # state_window.iconbitmap('favicon.ico')
+        # state_window.geometry("600x75+500+300")
+        # state_window.attributes('-toolwindow', True)
+        # Label(state_window, text="It all begins at the Launch Pad...").pack()
+        # state_window.after(3000, lambda: state_window.destroy())
+        # main_window.after(4000, lambda: playAudio("Audios/Launch_Pad.wav"))
         if val == 'a':
-            playVideo('Videos/Rocket Liftoff.mp4')
-            print("At the", state,
-                  "the rocket received the Launch Signal at T minus 0 and proceeded to the Lift Off Condition.")
-            simulation('Lift Off', string)
+            state_window = Toplevel()
+            state_window.title("Lift Off")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received the Launch Signal at T minus 0 and proceeded to the Lift Off Condition.").pack()
+            main_window.after(3000, lambda: playAudio("Audios/Launch_Pad.wav"))
+            state_window.after(8000, lambda: state_window.destroy())
+            main_window.after(9000, lambda: playVideo('Videos/Rocket Liftoff.mp4', 'Lift Off', 21))
+            main_window.after(52500, lambda: simulation('Lift Off', string))
         elif val == 'b':
-            playVideo('Videos/Rocket and Lightning.mp4')
-            print("At the", state,
-                  "the rocket received the lightening observed with 10 nautical miles signal and proceeded to the Delay Launch Condition.")
-            simulation('Delay Launch', string)
+            state_window = Toplevel()
+            state_window.title("Delay Launch")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received the lightning observed with 10 nautical miles signal and proceeded to the Delay Launch Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: playVideo('Videos/Rocket and Lightning.mp4', 'Lightning', 9))
+            main_window.after(34500, lambda: simulation('Delay Launch', string))
         elif val == 'd':
-            print("At the", state,
-                  "the rocket received the field mill instrument readings within 5 nautical miles exceed ±1,500 volts signal and proceeded to the Delay Launch Condition.")
-            simulation('Delay Launch', string)
+            state_window = Toplevel()
+            state_window.title("Delay Launch")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received the field mill instrument readings within 5 nautical miles exceed ±1,500 volts signal and proceeded to the Delay Launch Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: simulation('Delay Launch', string))
         elif val == 'f':
-            print("At the", state,
-                  "the rocket received the 162-foot level exceeds 30 mph signal and proceeded to the Abort Condition.")
-            simulation('Abort', string)
+            state_window = Toplevel()
+            state_window.title("Abort Launch")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received the 162-foot level exceeds 30 mph signal and proceeded to the Abort Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: simulation('Abort', string))
         elif val == 'g':
-            print("At the", state,
-                  "the rocket received the upper-level conditions are detected containing wind sheer signal and proceeded to the Abort Condition.")
-            simulation('Abort', string)
+            state_window = Toplevel()
+            state_window.title("Abort Launch")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received the upper-level conditions are detected containing wind sheer signal and proceeded to the Abort Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: simulation('Abort', string))
         elif val == 'h':
-            print("At the", state,
-                  "the rocket received the attached thunderstorm anvil cloud is detected within 10 nautical miles signal and proceeded to the Abort Condition.")
-            simulation('Abort', string)
+            state_window = Toplevel()
+            state_window.title("Abort Launch")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received the attached thunderstorm anvil cloud is detected within 10 nautical miles signal and proceeded to the Abort Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: simulation('Abort', string))
         elif val == 'i':
-            print("At the", state,
-                  "the rocket received the detached thunderstorm anvil cloud is detected within 10 nautical miles signal and proceeded to the Abort Condition.")
-            simulation('Abort', string)
+            state_window = Toplevel()
+            state_window.title("Abort Launch")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received the detached thunderstorm anvil cloud is detected within 10 nautical miles signal and proceeded to the Abort Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: simulation('Abort', string))
         elif val == 'j':
-            print("At the", state,
-                  "the rocket received the thunderstorm debris cloud is detected within 3 nautical miles signal and proceeded to the Abort Condition.")
-            simulation('Abort', string)
+            state_window = Toplevel()
+            state_window.title("Abort Launch")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received the thunderstorm debris cloud is detected within 3 nautical miles signal and proceeded to the Abort Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: simulation('Abort', string))
         elif val == 'k':
-            print("At the", state,
-                  "the rocket received the disturbed cloud extending into freezing temperatures is detected within 5 nautical miles signal and proceeded to the Abort Condition.")
-            simulation('Abort', string)
+            state_window = Toplevel()
+            state_window.title("Abort Launch")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received the disturbed cloud extending into freezing temperatures is detected within 5 nautical miles signal and proceeded to the Abort Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: simulation('Abort', string))
         elif val == 'l':
-            print("At the", state,
-                  "the rocket received the cloud layer greater than 4,500 feet thick extending into freezing temperatures is detected signal and proceeded to the Abort Condition.")
-            simulation('Abort', string)
+            state_window = Toplevel()
+            state_window.title("Abort Launch")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received the cloud layer greater than 4,500 feet thick extending into freezing temperatures is detected signal and proceeded to the Abort Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: simulation('Abort', string))
         elif val == 'm':
-            print("At the", state,
-                  "the rocket received the cumulus clouds extending into freezing temperatures are detected within 10 nautical miles signal and proceeded to the Abort Condition.")
-            simulation('Abort', string)
+            state_window = Toplevel()
+            state_window.title("Abort Launch")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received the cumulus clouds extending into freezing temperatures are detected within 10 nautical miles signal and proceeded to the Abort Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: simulation('Abort', string))
         elif val == 'n':
-            print("At the", state,
-                  "the rocket received the cumulus cloud is detected which formed because of or is directly attached to smoke plume signal and proceeded to the Abort Condition.")
-            simulation('Abort', string)
+            state_window = Toplevel()
+            state_window.title("Abort Launch")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received the cumulus cloud is detected which formed because of or is directly attached to smoke plume signal and proceeded to the Abort Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: simulation('Abort', string))
+        elif val == 'EOS':
+            state_window = Toplevel()
+            state_window.title("Premature Abort")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="Due to the length of the string entered, the launch will be prematurely aborted in the " + state + " condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: main_window.destroy())
         else:
-            print("At the", state,
-                  "the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.")
-            simulation('Stall', string)
+            state_window = Toplevel()
+            state_window.title("Stall State")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(3500, lambda: playAudio("Audios/Error_Alert.wav"))
+            main_window.after(9000, lambda: simulation('Stall', string))
     elif state.title() == "Delay Launch":
         if val == 'c':
-            print("At the", state,
-                  "the rocket received the 30 minutes has passed signal and proceeded to the Launch Pad Condition.")
-            simulation('Launch Pad', string)
+            state_window = Toplevel()
+            state_window.title("Launch Pad")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window,
+                  text="At the " + state +
+                  " the rocket received the 30 minutes has passed signal and proceeded to the Launch Pad Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: simulation('Launch Pad', string))
         elif val == 'e':
-            print("At the", state,
-                  "the rocket received the thunderstorm producing lightening is detected within 10 nautical miles signal and proceeded to the Abort Condition.")
-            simulation('Abort', string)
+            state_window = Toplevel()
+            state_window.title("Abort Launch")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received the thunderstorm producing lightning is detected within 10 nautical miles signal and proceeded to the Abort Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: simulation('Abort', string))
+        elif val == 'EOS':
+            state_window = Toplevel()
+            state_window.title("Premature Abort")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window,
+                  text="Due to the length of the string entered, the launch will be prematurely aborted in the " + state + " condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: main_window.destroy())
         else:
-            print("At the", state,
-                  "the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.")
-            simulation('Stall', string)
+            state_window = Toplevel()
+            state_window.title("Stall State")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(3500, lambda: playAudio("Audios/Error_Alert.wav"))
+            main_window.after(9000, lambda: simulation('Stall', string))
     elif state.title() == "Lift Off":
         if val == 'o':
-            playVideo('Videos/SRB Separation.mp4')
-            print("At the", state,
-                  "the rocket received the SRB Separation signal and proceeded to the Powered Ascent Condition.")
-            simulation('Powered Ascent', string)
+            state_window = Toplevel()
+            state_window.title("Powered Ascent")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received the SRB Separation signal and proceeded to the Powered Ascent Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: playVideo('Videos/SRB Separation.mp4', 'SRB Separation', 9))
+            main_window.after(28500, lambda: simulation('Powered Ascent', string))
+        elif val == 'EOS':
+            state_window = Toplevel()
+            state_window.title("Premature Abort")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window,
+                  text="Due to the length of the string entered, the launch will be prematurely aborted in the " + state + " condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: main_window.destroy())
         else:
-            print("At the", state,
-                  "the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.")
-            simulation('Stall', string)
+            state_window = Toplevel()
+            state_window.title("Stall State")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(3500, lambda: playAudio("Audios/Error_Alert.wav"))
+            main_window.after(9000, lambda: simulation('Stall', string))
     elif state.title() == "Powered Ascent":
         if val == 'p':
-            playVideo('Videos/MECO.mp4')
-            print("At the", state,
-                  "the rocket received the Main Engine Cut Off (MECO) signal and proceeded to the Ignition Condition.")
-            simulation('Ignition', string)
+            state_window = Toplevel()
+            state_window.title("Ignition")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received the Main Engine Cut Off (MECO) signal and proceeded to the Ignition Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: playVideo('Videos/MECO.mp4', 'MECO', 20))
+            main_window.after(36500, lambda: simulation('Ignition', string))
         elif val == 'q':
-            print("At the", state,
-                  "the rocket received the Return to Launch Site (RTLS) signal and proceeded to the Abort Condition.")
-            simulation('Abort', string)
+            state_window = Toplevel()
+            state_window.title("Abort Launch")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received the Return to Launch Site (RTLS) signal and proceeded to the Abort Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: simulation('Abort', string))
+        elif val == 'EOS':
+            state_window = Toplevel()
+            state_window.title("Premature Abort")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window,
+                  text="Due to the length of the string entered, the launch will be prematurely aborted in the " + state + " condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: main_window.destroy())
         else:
-            print("At the", state,
-                  "the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.")
-            simulation('Stall', string)
+            state_window = Toplevel()
+            state_window.title("Stall State")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(3500, lambda: playAudio("Audios/Error_Alert.wav"))
+            main_window.after(9000, lambda: simulation('Stall', string))
     elif state.title() == "Ignition":
         if val == 'r':
-            playVideo('Videos/ET Separation.mp4')
-            print("At the", state,
-                  "the rocket received the ET Separation signal and proceeded to the Stage Separation Condition.")
-            simulation('Stage Separation', string)
+            state_window = Toplevel()
+            state_window.title("Stage Separation")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received the ET Separation signal and proceeded to the Stage Separation Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: playVideo('Videos/ET Separation.mp4', 'ET Separation', 9))
+            main_window.after(19500, lambda: simulation('Stage Separation', string))
         elif val == 's':
-            print("At the", state,
-                  "the rocket received the Transoceanic Abort Landing (TAL) signal and proceeded to the Abort Condition.")
-            simulation('Abort', string)
+            state_window = Toplevel()
+            state_window.title("Abort Launch")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received the Transoceanic Abort Landing (TAL) signal and proceeded to the Abort Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: simulation('Abort', string))
+        elif val == 'EOS':
+            state_window = Toplevel()
+            state_window.title("Premature Abort")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window,
+                  text="Due to the length of the string entered, the launch will be prematurely aborted in the " + state + " condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: main_window.destroy())
         else:
-            print("At the", state,
-                  "the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.")
-            simulation('Stall', string)
+            state_window = Toplevel()
+            state_window.title("Stall State")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(3500, lambda: playAudio("Audios/Error_Alert.wav"))
+            main_window.after(9000, lambda: simulation('Stall', string))
     elif state.title() == "Stage Separation":
         if val == 't':
-            print("At the", state,
-                  "the rocket received the Orbit Insertion signal and proceeded to the On Orbit Operations Condition.")
-            simulation('On Orbit Operations', string)
+            state_window = Toplevel()
+            state_window.title("On Orbit Operations")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window,
+                  text="At the " + state +
+                  " the rocket received the Orbit Insertion signal and proceeded to the On Orbit Operations Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: simulation('On Orbit Operations', string))
         elif val == 'u':
-            print("At the", state,
-                  "the rocket received the Abort Once Around (AOA) signal and proceeded to the Abort Condition.")
-            simulation('Abort', string)
+            state_window = Toplevel()
+            state_window.title("Abort Launch")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received the Abort Once Around (AOA) signal and proceeded to the Abort Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: simulation('Abort', string))
+        elif val == 'EOS':
+            state_window = Toplevel()
+            state_window.title("Premature Abort")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window,
+                  text="Due to the length of the string entered, the launch will be prematurely aborted in the " + state + " condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: main_window.destroy())
         else:
-            print("At the", state,
-                  "the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.")
-            simulation('Stall', string)
+            state_window = Toplevel()
+            state_window.title("Stall State")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(3500, lambda: playAudio("Audios/Error_Alert.wav"))
+            main_window.after(9000, lambda: simulation('Stall', string))
     elif state.title() == "On Orbit Operations":
         if val == 'v':
-            print("At the", state,
-                  "the rocket received the Deorbit signal and proceeded to the Boostback Burn Condition.")
-            simulation('Boostback Burn', string)
+            state_window = Toplevel()
+            state_window.title("Boostback Burn")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window,
+                  text="At the " + state +
+                       " the rocket received the Deorbit signal and proceeded to the Boostback Burn Condition..").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: simulation('Boostback Burn', string))
         elif val == 'w':
-            playVideo('Videos/Abort to Orbit.mp4')
-            print("At the", state,
-                  "the rocket received the Abort to Orbit (ATO) signal and proceeded to the Abort Condition.")
-            simulation('Abort', string)
+            state_window = Toplevel()
+            state_window.title("Abort to Orbit --> Abort")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received the Abort to Orbit (ATO) signal and proceeded to the Abort Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: playVideo('Videos/Abort to Orbit.mp4', 'Abort to Orbit', 9))
+            main_window.after(34500, lambda: simulation('Abort', string))
+        elif val == 'EOS':
+            state_window = Toplevel()
+            state_window.title("Premature Abort")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window,
+                  text="Due to the length of the string entered, the launch will be prematurely aborted in the " + state + " condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: main_window.destroy())
         else:
-            print("At the", state,
-                  "the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.")
-            simulation('Stall', string)
+            state_window = Toplevel()
+            state_window.title("Stall State")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(3500, lambda: playAudio("Audios/Error_Alert.wav"))
+            main_window.after(9000, lambda: simulation('Stall', string))
     elif state.title() == 'Boostback Burn':
         if val == 'x':
-            playVideo('Videos/Reentry to Earth.mp4')
-            print("At the", state,
-                  "the rocket received the Reentry signal and proceeded to the Entry Burn Condition.")
-            simulation('Entry Burn', string)
+            state_window = Toplevel()
+            state_window.title("Entry Burn")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received the Reentry signal and proceeded to the Entry Burn Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: playVideo('Videos/Reentry to Earth.mp4', 'Reentry to Earth', 16))
+            main_window.after(19500, lambda: simulation('Entry Burn', string))
         elif val == 'y':
-            print("At the", state,
-                  "the rocket received the Contingency Abort signal and proceeded to the Abort Condition.")
-            simulation('Abort', string)
+            state_window = Toplevel()
+            state_window.title("Abort Launch")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received the Contingency Abort signal and proceeded to the Abort Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: simulation('Abort', string))
+        elif val == 'EOS':
+            state_window = Toplevel()
+            state_window.title("Premature Abort")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window,
+                  text="Due to the length of the string entered, the launch will be prematurely aborted in the " + state + " condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: main_window.destroy())
         else:
-            print("At the", state,
-                  "the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.")
-            simulation('Stall', string)
+            state_window = Toplevel()
+            state_window.title("Stall State")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(3500, lambda: playAudio("Audios/Error_Alert.wav"))
+            main_window.after(9000, lambda: simulation('Stall', string))
     elif state.title() == "Entry Burn":
         if val == 'z':
-            playVideo('Videos/Landing.mp4')
-            print("At the", state,
-                  "the rocket received the Landing signal and proceeded to the Splashdown Condition.")
-            simulation('Splashdown', string)
+            state_window = Toplevel()
+            state_window.title("Splashdown")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received the Landing signal and proceeded to the Splashdown Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: playVideo('Videos/Landing.mp4', 'Landing', 9))
+            main_window.after(19500, lambda: simulation('Splashdown', string))
+        elif val == 'EOS':
+            state_window = Toplevel()
+            state_window.title("Premature Abort")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window,
+                  text="Due to the length of the string entered, the launch will be prematurely aborted in the " + state + " condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(4000, lambda: main_window.destroy())
         else:
-            print("At the", state,
-                  "the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.")
-            simulation('Stall', string)
+            state_window = Toplevel()
+            state_window.title("Stall State")
+            state_window.iconbitmap('favicon.ico')
+            state_window.geometry("600x75+500+300")
+            state_window.attributes('-toolwindow', True)
+            Label(state_window, text="At the " + state +
+                                     " the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.").pack()
+            state_window.after(3000, lambda: state_window.destroy())
+            main_window.after(3500, lambda: playAudio("Audios/Error_Alert.wav"))
+            main_window.after(9000, lambda: simulation('Stall', string))
     elif state.title() == "Splashdown":
-        print("At the", state, "the rocket has safety landed.")
+        state_window = Toplevel()
+        state_window.title("Splashdown")
+        state_window.iconbitmap('favicon.ico')
+        state_window.geometry("600x75+500+300")
+        state_window.attributes('-toolwindow', True)
+        Label(state_window, text="At the " + state + " the rocket has safety landed.").pack()
+        state_window.after(3000, lambda: state_window.destroy())
+        main_window.after(4000, lambda: main_window.destroy())
     elif state.title() == "Abort":
-        print("Welcome to the Abort Condition, where no matter the input, you're stuck here.")
-        # simulation('Abort', string)
+        state_window = Toplevel()
+        state_window.title("In Abort Launch")
+        state_window.iconbitmap('favicon.ico')
+        state_window.geometry("600x75+500+300")
+        state_window.attributes('-toolwindow', True)
+        Label(state_window, text="Welcome to the Abort Condition, where no matter the input, you're stuck here.").pack()
+        state_window.after(3000, lambda: state_window.destroy())
+        main_window.after(4000, lambda: main_window.destroy())
     elif state.title() == "Stall":
-        print("Welcome to the Stall Condition, rocket won't move.")
-        # main_window.destroy()
+        state_window = Toplevel()
+        state_window.title("Stall State")
+        state_window.iconbitmap('favicon.ico')
+        state_window.geometry("600x75+500+300")
+        state_window.attributes('-toolwindow', True)
+        Label(state_window, text="Welcome to the Stall Condition, the rocket won't move.").pack()
+        state_window.after(3000, lambda: state_window.destroy())
+        main_window.after(4000, lambda: main_window.destroy())
 
 
 # Main Window

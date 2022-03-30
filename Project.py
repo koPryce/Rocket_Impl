@@ -83,7 +83,7 @@ def simulation(state, string):
         # state_window.attributes('-toolwindow', True)
         # Label(state_window, text="It all begins at the Launch Pad...").pack()
         # state_window.after(3000, lambda: state_window.destroy())
-        main_window.after(4000, lambda: playAudio("Audios/Launch_Pad.wav"))
+        # main_window.after(4000, lambda: playAudio("Audios/Launch_Pad.wav"))
         if val == 'a':
             state_window = Toplevel()
             state_window.title("Lift Off")

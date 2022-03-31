@@ -1,3 +1,10 @@
+# Names: Shanae Heslop, Kevaughn Pryce, Torrike Whittaker
+# ID Numbers: 1905461, 1901891, 1801536
+# Date of Submission: March 31, 2022
+# Lecturer: Mr. David White
+# Title: Implementation of DFA for Space Flight Vehicle Mission
+
+# Imports
 import time
 import tkinter
 from tkinter import *
@@ -9,18 +16,19 @@ import pygame
 
 # Functions
 def parseString():
-    string = stringBox.get()
-    if not string.isalpha():
+    string = stringBox.get()  # Retrieves the string entered by the user.
+    # Error handling is performed for the string and if everything is alright, them the implementation begins.
+    if len(string) == 0:
+        messagebox.showerror("No String",
+                             "The string entered is empty.",
+                             parent=main_frame)
+    elif not string.isalpha():
         messagebox.showerror("Alphabet Error",
-                             "The string entered contains characters that are not a part of the alphabet.",
+                             "The string entered contains character(s) that are not a part of the alphabet.",
                              parent=main_frame)
     elif not string.islower():
         messagebox.showerror("Case Error",
-                             "The string entered contains uppercase characters that are not a part of the alphabet.",
-                             parent=main_frame)
-    elif len(string) == 0:
-        messagebox.showerror("No String",
-                             "The string entered is empty.",
+                             "The string entered contains uppercase character(s) that are not a part of the alphabet.",
                              parent=main_frame)
     else:
         success_window = Toplevel()
@@ -38,10 +46,12 @@ def parseString():
         main_window.after(3500, lambda: simulation('Launch Pad', listString))
 
 
+# This function is used to resize the frame that shows the videos
 def rescaleFrame(name):
     return cv2.resize(name, (500, 400), interpolation=cv2.INTER_AREA)
 
 
+# This function plays the video files
 def playVideo(video_path, frame_name, wait_key):
     video = cv2.VideoCapture(video_path)
     audio = MediaPlayer(video_path)
@@ -66,6 +76,7 @@ def playVideo(video_path, frame_name, wait_key):
     cv2.destroyAllWindows()
 
 
+# This function plays the audio
 def playAudio(audio_path):
     pygame.mixer.init()
     pygame.mixer.music.load(open(audio_path, "rb"))
@@ -74,17 +85,10 @@ def playAudio(audio_path):
         time.sleep(1)
 
 
+# This function is the core of the implementation as it is the representation of the DFA constructed.
 def simulation(state, string):
     val = string.pop(0)
     if state.title() == "Launch Pad":
-        # state_window = Toplevel()
-        # state_window.title("Launch Pad")
-        # state_window.iconbitmap('favicon.ico')
-        # state_window.geometry("600x75+500+300")
-        # state_window.attributes('-toolwindow', True)
-        # Label(state_window, text="It all begins at the Launch Pad...").pack()
-        # state_window.after(3000, lambda: state_window.destroy())
-        # main_window.after(4000, lambda: playAudio("Audios/Launch_Pad.wav"))
         if val == 'a':
             state_window = Toplevel()
             state_window.title("Lift Off")
@@ -571,6 +575,7 @@ def simulation(state, string):
         state_window.geometry("600x75+500+300")
         state_window.attributes('-toolwindow', True)
         Label(state_window, text="At the " + state + " the rocket has safety landed.").pack()
+        playAudio("Audios/Right_Path.wav")
         state_window.after(3000, lambda: state_window.destroy())
         main_window.after(4000, lambda: main_window.destroy())
     elif state.title() == "Abort":

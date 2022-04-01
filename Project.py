@@ -228,7 +228,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Stall State")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("675x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.").pack()
@@ -272,7 +272,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Stall State")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("675x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.").pack()
@@ -306,7 +306,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Stall State")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("675x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.").pack()
@@ -318,7 +318,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Ignition")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("675x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the Main Engine Cut Off (MECO) signal and proceeded to the Ignition Condition.").pack()
@@ -350,7 +350,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Stall State")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("675x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.").pack()
@@ -394,7 +394,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Stall State")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("675x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.").pack()
@@ -406,7 +406,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("On Orbit Operations")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("680x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window,
                   text="At the " + state +
@@ -438,7 +438,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Stall State")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("675x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.").pack()
@@ -450,7 +450,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Boostback Burn")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("610x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window,
                   text="At the " + state +
@@ -483,7 +483,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Stall State")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("675x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.").pack()
@@ -527,7 +527,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Stall State")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("675x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.").pack()
@@ -561,7 +561,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Stall State")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("675x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received a signal that it couldn't accept and proceeded to the Stall State Condition.").pack()

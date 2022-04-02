@@ -129,7 +129,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Abort Launch")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("690x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the 162-foot level exceeds 30 mph signal and proceeded to the Abort Condition.").pack()
@@ -139,7 +139,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Abort Launch")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("690x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the upper-level conditions are detected containing wind sheer signal and proceeded to the Abort Condition.").pack()
@@ -149,7 +149,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Abort Launch")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("690x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the attached thunderstorm anvil cloud is detected within 10 nautical miles signal and proceeded to the Abort Condition.").pack()
@@ -159,7 +159,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Abort Launch")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("690x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the detached thunderstorm anvil cloud is detected within 10 nautical miles signal and proceeded to the Abort Condition.").pack()
@@ -169,7 +169,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Abort Launch")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("690x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the thunderstorm debris cloud is detected within 3 nautical miles signal and proceeded to the Abort Condition.").pack()
@@ -179,7 +179,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Abort Launch")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("690x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the disturbed cloud extending into freezing temperatures is detected within 5 nautical miles signal and proceeded to the Abort Condition.").pack()
@@ -189,7 +189,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Abort Launch")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("690x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the cloud layer greater than 4,500 feet thick extending into freezing temperatures is detected signal and proceeded to the Abort Condition.").pack()
@@ -199,7 +199,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Abort Launch")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("690x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the cumulus clouds extending into freezing temperatures are detected within 10 nautical miles signal and proceeded to the Abort Condition.").pack()
@@ -209,7 +209,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Abort Launch")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("690x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the cumulus cloud is detected which formed because of or is directly attached to smoke plume signal and proceeded to the Abort Condition.").pack()
@@ -252,7 +252,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Abort Launch")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("690x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the thunderstorm producing lightning is detected within 10 nautical miles signal and proceeded to the Abort Condition.").pack()
@@ -330,7 +330,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Abort Launch")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("690x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the Return to Launch Site (RTLS) signal and proceeded to the Abort Condition.").pack()
@@ -374,7 +374,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Abort Launch")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("690x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the Transoceanic Abort Landing (TAL) signal and proceeded to the Abort Condition.").pack()
@@ -418,7 +418,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Abort Launch")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("690x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the Abort Once Around (AOA) signal and proceeded to the Abort Condition.").pack()
@@ -507,7 +507,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Abort Launch")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("690x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the Contingency Abort signal and proceeded to the Abort Condition.").pack()

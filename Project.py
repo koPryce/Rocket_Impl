@@ -106,7 +106,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Delay Launch")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("750x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the lightning observed with 10 nautical miles signal and proceeded to the Delay Launch Condition.").pack()
@@ -118,7 +118,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Delay Launch")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("750x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window, text="At the " + state +
                                      " the rocket received the field mill instrument readings within 5 nautical miles exceed ±1,500 volts signal and proceeded to the Delay Launch Condition.").pack()
@@ -240,7 +240,7 @@ def simulation(state, string):
             state_window = Toplevel()
             state_window.title("Launch Pad")
             state_window.iconbitmap('favicon.ico')
-            state_window.geometry("600x75+500+300")
+            state_window.geometry("750x75+500+300")
             state_window.attributes('-toolwindow', True)
             Label(state_window,
                   text="At the " + state +
